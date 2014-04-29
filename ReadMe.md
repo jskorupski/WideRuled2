@@ -29,8 +29,8 @@ Build Directories are located in: .\src_dotnet\WideRuled2\bin\Debug\ and .\src_d
 ### Important Notes
 * This project was built and compiled using **Microsoft Visual Studio 2008** - newer VS versions have not been tested (and likely require modifications and a newer version of the Xceed Data Grid and newer license key). 
 * The Data Grids in Wide Ruled 2 use the Xceed WPF Datagrid control - Binary Installer for the Version used in WR2 is contained
-** The Visual Authoring/Configuration of the Datagrids requires installation of the Xceed software, which is included inside the src_dotnet directory
-** If you don't want to install the Xceed configuration tool, you can manually modify the configuration of the DataGrids directly in the XAML source for each window, within the `<DataGridControl>` node attributes and the subnodes within that parent node.
+* The Visual Authoring/Configuration of the Datagrids requires installation of the Xceed software, which is included inside the **`.\src_dotnet\`** directory
+* If you don't want to install the Xceed DataGrid configuration tool, you can manually modify the configuration of the DataGrids directly in the XAML source for each window, within the `<DataGridControl>` node attributes and the subnodes within that parent node.
 * The Story Generation process first begins in the `buttonGenerate_Click()` function in `WindowMain.xaml.cs`, which is triggered by clicking the Generate button. This function executes all the error checking logic, then starts the code generation and compilation phases. 
 * Code generation occurs within the `AblCodeGenerator.cs` file, and begins at the `AblCodeGenerator.BuildCode()` function, which first generates the ABL agent code, then builds the ABL agent source, copying existing static source files and executing the java and javac binaries that come with the WideRuled2 source. 
 * The `CompressWith7ZipForRelease.bat` file in the **`.\src_dotnet\WideRuled2\bin\`** directory takes the Release folder and compresses it with 7zip (assuming it is installed on your computer). 
