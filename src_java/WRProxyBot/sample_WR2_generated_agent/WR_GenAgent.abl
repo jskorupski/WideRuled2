@@ -1,0 +1,1467 @@
+//------------------------------------------------------------------------//
+// ............................Wide Ruled 2 ....,.........................//
+// ...............ABL-based Story Generator Source Code...................//
+// ......This file is created automatically - please don't modify!....... //
+//------------------------------------------------------------------------//
+
+
+
+
+package javacode;
+
+import java.lang.*;
+import java.util.*;
+import java.util.ArrayList;
+import abl.runtime.*;
+import wm.*;
+
+
+
+
+behaving_entity WR_GenAgent {
+    
+    
+    //------------------------------------------------------------------------//
+    //--------------Register actions from WR_Bot proxybot-----------------------
+    //------------------------------------------------------------------------//
+    register action print(String, ArrayList, Boolean) with WR_PrintAction;
+    register action print(String, ArrayList) with WR_PrintAction;
+    register action print(String, Boolean) with WR_PrintAction;
+    register action abort() with WR_AbortAction;
+    
+    
+    //------------------------------------------------------------------------//
+    //--------------------------Register sensors------------------------------//
+    //------------------------------------------------------------------------//
+    
+    register wme WR_InteractionWME with WR_InteractionSensor;
+    register wme WR_UndoWME with WR_UndoSensor;
+    register wme WR_AbortWME with WR_AbortSensor;
+    
+    
+    //properties
+    property boolean storyTop;
+    property boolean isCounted;
+    
+    
+    //World state stack
+    Stack gWorldStateStack = new Stack();
+    
+    //Global execution counter
+    int gExecCount = 0;
+    //Max execution count to catch infinite looping
+    int gMaxExecCount = 20000;
+    //True/False boolean objects for parameter passing
+    Boolean TrueObject = new Boolean(true);
+    Boolean FalseObject = new Boolean(false);
+    //Temp data list for WME order randomization hack
+    ArrayList tempTotalWMEState = new ArrayList();
+    
+    
+    wme WR_CharacterWME {
+        int id;
+        String _Name;
+        boolean _PotentialVictim;
+        float _Age;
+        String _Hometown;
+        String _Gender;
+        boolean _Detective;
+        boolean _Alive;
+        String rel_targetname__Friend;
+        float rel_strength__Friend;
+        String rel_targetname__Enemy;
+        float rel_strength__Enemy;
+        String rel_targetname__Coworker;
+        float rel_strength__Coworker;
+    }
+    
+    wme WR_EnvironmentWME {
+        int id;
+        String _Name;
+        String _Description;
+        String _Time;
+        boolean _Witnesses;
+        boolean _PotentialMurderLocation;
+        String  rel_targetname__NearbyLocation;
+        float rel_strength__NearbyLocation;
+    }
+    
+    wme WR_PlotPoint__CrimeInfoWME {
+        int id;
+        String _VictimName;
+        String _CrimeSceneName;
+        String _DetectiveName;
+    }
+    wme WR_PlotPoint__MurdererWME {
+        int id;
+        String _MurdererName;
+        String _MurderHideoutName;
+        float _CluesFound;
+    }
+    wme WR_PlotPoint__MurderSolvedWME {
+        int id;
+        boolean _Solved;
+    }
+    
+    
+    //Plot Fragment Name: Do Story
+    sequential behavior _DoMurderMystery () {
+        //Begin preconditions
+        precondition {
+            (WR_CharacterWME _PotentialVictim == true  _Name::_victimName  _Age::_victimAge  _Gender::_victimGender  _Hometown::_victimHometown _Alive == true )
+            (WR_CharacterWME _Detective == true  _Name::_detectiveName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+        }
+        act print ("                                                                                                                               ___Welcome to another episode of Murder Mystery: ", fragLocalPrimitives);
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _DotheCrime (_victimName);
+        /****************************************** End Subgoal ******************************************/
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _FindaDetective (_detectiveName);
+        /****************************************** End Subgoal ******************************************/
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_victimName);
+            fragLocalPrimitives.add(_victimAge);
+            fragLocalPrimitives.add(_victimGender);
+            fragLocalPrimitives.add(_victimHometown);
+        }
+        act print ("The facts: the victim is <victimName>, a <victimAge>-year old <victimGender> from <victimHometown>, found dead earlier today. ", fragLocalPrimitives);
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _Investigate ();
+        /****************************************** End Subgoal ******************************************/
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _SolvetheCrime ();
+        /****************************************** End Subgoal ******************************************/
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _CapturetheMurderer ();
+        /****************************************** End Subgoal ******************************************/
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+        }
+        act print ("                                                                              The End! Let's tell another Murder Mystery ...  ", fragLocalPrimitives);
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _RestartStory ();
+        /****************************************** End Subgoal ******************************************/
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    //Plot Fragment Name: No more alive victims
+    sequential behavior _DoMurderMystery () {
+        //Begin preconditions
+        precondition {
+            !(WR_CharacterWME _PotentialVictim == true _Alive == true )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+        }
+        act print ("                                                                                                                                                                                                                                                                                No more victims to kill! The End!", fragLocalPrimitives);
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    
+    //Plot Fragment Name: Random Murderer
+    sequential behavior _DotheCrime (String _VictimName) {
+        //Begin preconditions
+        precondition {
+            (WR_CharacterWME _Name != _VictimName _Name::_murderName _Detective == false )
+            (WR_EnvironmentWME _PotentialMurderLocation == true  _Name::_crimeLocationName  _Description::_crimeSceneDescription  _Time::_crimeTime  rel_targetname__NearbyLocation::_hideoutName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        WR_PlotPoint__CrimeInfoWME _crimeInformation;
+        WR_PlotPoint__MurdererWME _murderInformation;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_crimeTime);
+            fragLocalPrimitives.add(_crimeSceneDescription);
+        }
+        act print ("The time: <crimeTime>, the place: <crimeSceneDescription>. ", fragLocalPrimitives);
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _AttacktheVictim (_VictimName);
+        /****************************************** End Subgoal ******************************************/
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_murderName);
+        }
+        act print ("<murderName> appears out of the darkness as the evil murderer, and escapes into the distance to seek shelter from the inevitable eyes of the police. ", fragLocalPrimitives);
+        
+        
+        mental_act {
+            _crimeInformation = new WR_PlotPoint__CrimeInfoWME ( 
+                475, 
+                "", 
+                "", 
+                ""
+            );
+            BehavingEntity.getBehavingEntity().addWME(_crimeInformation);
+        }
+        
+        
+        mental_act {
+            _crimeInformation.set_VictimName(_VictimName);
+        }
+        
+        
+        mental_act {
+            _crimeInformation.set_CrimeSceneName(_crimeLocationName);
+        }
+        
+        
+        mental_act {
+            _murderInformation = new WR_PlotPoint__MurdererWME ( 
+                511, 
+                "", 
+                "", 
+                0f
+            );
+            BehavingEntity.getBehavingEntity().addWME(_murderInformation);
+        }
+        
+        
+        mental_act {
+            _murderInformation.set_MurdererName(_murderName);
+        }
+        
+        
+        mental_act {
+            _murderInformation.set_MurderHideoutName(_hideoutName);
+        }
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    //Plot Fragment Name: Murderer is Enemy
+    sequential behavior _DotheCrime (String _VictimName) {
+        //Begin preconditions
+        precondition {
+            (WR_CharacterWME _Name == _VictimName  rel_targetname__Enemy::_enemyName rel_strength__Enemy > 5f )
+            (WR_EnvironmentWME _PotentialMurderLocation == true  _Name::_crimeSceneName  _Description::_crimeSceneDescription  _Time::_crimeTime  rel_targetname__NearbyLocation::_hideoutName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        WR_PlotPoint__CrimeInfoWME _crimeInformation;
+        WR_PlotPoint__MurdererWME _murderInfo;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_crimeTime);
+            fragLocalPrimitives.add(_crimeSceneDescription);
+        }
+        act print ("The time: <crimeTime>, the place: <crimeSceneDescription>. ", fragLocalPrimitives);
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _AttacktheVictim (_VictimName);
+        /****************************************** End Subgoal ******************************************/
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_enemyName);
+        }
+        act print ("<enemyName> appears out of the darkness as the evil murderer, and escapes into the distance to seek shelter from the inevitable eyes of the police. ", fragLocalPrimitives);
+        
+        
+        mental_act {
+            _crimeInformation = new WR_PlotPoint__CrimeInfoWME ( 
+                597, 
+                "", 
+                "", 
+                ""
+            );
+            BehavingEntity.getBehavingEntity().addWME(_crimeInformation);
+        }
+        
+        
+        mental_act {
+            _crimeInformation.set_VictimName(_VictimName);
+        }
+        
+        
+        mental_act {
+            _crimeInformation.set_CrimeSceneName(_crimeSceneName);
+        }
+        
+        
+        mental_act {
+            _murderInfo = new WR_PlotPoint__MurdererWME ( 
+                618, 
+                "", 
+                "", 
+                0f
+            );
+            BehavingEntity.getBehavingEntity().addWME(_murderInfo);
+        }
+        
+        
+        mental_act {
+            _murderInfo.set_MurdererName(_enemyName);
+        }
+        
+        
+        mental_act {
+            _murderInfo.set_MurderHideoutName(_hideoutName);
+        }
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    
+    //Plot Fragment Name: Gunshot
+    sequential behavior _AttacktheVictim (String _victimname) {
+        //Begin preconditions
+        precondition {
+            _victim = (WR_CharacterWME _Name == _victimname )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_victimname);
+            fragLocalPrimitives.add(_victimname);
+        }
+        act print ("<victim name> turns around suddenly at the sound of the click. Just as <victim name> notices the gleam of a barrel, a lound bang erupts and our victim falls flat to the ground, coughing and sputtering up the last bit of an ending life. ", fragLocalPrimitives);
+        
+        
+        mental_act {
+            _victim.set_Alive(false);
+        }
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    //Plot Fragment Name: Stabbing
+    sequential behavior _AttacktheVictim (String _victimname) {
+        //Begin preconditions
+        precondition {
+            _victim = (WR_CharacterWME _Name == _victimname )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_victimname);
+        }
+        act print ("From the darkness, a large, sharp blade thrusts at <victim name>, resulting in a deadly blow. Our victim falls to the floor in pain, and fades away quickly as the life drains from the dying body. ", fragLocalPrimitives);
+        
+        
+        mental_act {
+            _victim.set_Alive(false);
+        }
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    
+    //Plot Fragment Name: Detective sleeping
+    sequential behavior _FindaDetective (String _DetectiveName) {
+        //Begin preconditions
+        precondition {
+            _crimeInformation = (WR_PlotPoint__CrimeInfoWME )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_DetectiveName);
+        }
+        act print ("Cut to a quiet single bedroom apartment. The shrill ring of a phone awakens <Detective Name> from a deep and relentless slumber. He slowly opens his eyes, and knows exactly what the call brings. He accepts his fate quickly, picks up the phone, and gathers the details about his new case. Once the call is finished, he gathers is things, jumps in the car, and heads to the crime scene.", fragLocalPrimitives);
+        
+        
+        mental_act {
+            _crimeInformation.set_DetectiveName(_DetectiveName);
+        }
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    //Plot Fragment Name: Detective drunk
+    sequential behavior _FindaDetective (String _DetectiveName) {
+        //Begin preconditions
+        precondition {
+            _crimeInformation = (WR_PlotPoint__CrimeInfoWME )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_DetectiveName);
+            fragLocalPrimitives.add(_DetectiveName);
+            fragLocalPrimitives.add(_DetectiveName);
+        }
+        act print ("Cut to a shady dive in the not-so-pretty area of town. <Detective Name> stumbles from the bathroom and reseats himself on his favorite barstool. He demands another scotch, but the bartender refuses, angering <Detective Name> to no end. Before he can respond to the bartender's contention, his cell phone rings. It's the department, and <Detective Name> has been waiting for a new case. He picks up the phone to gather details, flees the bar, grabs a cab, and heads over to the crime scene.", fragLocalPrimitives);
+        
+        
+        mental_act {
+            _crimeInformation.set_DetectiveName(_DetectiveName);
+        }
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    
+    //Plot Fragment Name: Find crime scene evidence
+    sequential behavior _Investigate () {
+        //Begin preconditions
+        precondition {
+            !(WR_PlotPoint__MurderSolvedWME )
+            _murderInfo = (WR_PlotPoint__MurdererWME _CluesFound < 5f _CluesFound::_currentClueCount )
+            (WR_PlotPoint__CrimeInfoWME  _VictimName::_victimName  _CrimeSceneName::_crimeSceneName  _DetectiveName::_detectiveName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        float _newClueCount;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            _newClueCount = _currentClueCount + 1f;
+        }
+        
+        mental_act {
+            _murderInfo.set_CluesFound(_newClueCount);
+        }
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_detectiveName);
+            fragLocalPrimitives.add(_crimeSceneName);
+            fragLocalPrimitives.add(_victimName);
+        }
+        act print ("<detectiveName> examines closely <crimeSceneName> and finds a small piece of previously undiscovered evidence on the body of <victimName> that was conveniently overlooked by the CSI team. ", fragLocalPrimitives);
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _Investigate ();
+        /****************************************** End Subgoal ******************************************/
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    //Plot Fragment Name: Interview friend
+    sequential behavior _Investigate () {
+        //Begin preconditions
+        precondition {
+            !(WR_PlotPoint__MurderSolvedWME )
+            _murderInfo = (WR_PlotPoint__MurdererWME _CluesFound < 5f _CluesFound::_currentClueCount  _MurdererName::_murdererName )
+            (WR_PlotPoint__CrimeInfoWME  _VictimName::_victimName  _DetectiveName::_detectiveName )
+            (WR_CharacterWME _Name == _victimName  rel_targetname__Friend::_friendName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        float _newClueCount;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_detectiveName);
+            fragLocalPrimitives.add(_friendName);
+            fragLocalPrimitives.add(_victimName);
+            fragLocalPrimitives.add(_victimName);
+            fragLocalPrimitives.add(_murdererName);
+        }
+        act print ("<detectiveName> decides to interview <friendName>, a friend of <victimName>, for any clues as to why our victim was murdered. He finds that <victimName> and <murdererName> had a recent argument over money, and writes this clue down. ", fragLocalPrimitives);
+        
+        mental_act {
+            _newClueCount = _currentClueCount + 1f;
+        }
+        
+        mental_act {
+            _murderInfo.set_CluesFound(_newClueCount);
+        }
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _Investigate ();
+        /****************************************** End Subgoal ******************************************/
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    //Plot Fragment Name: Interview coworker
+    sequential behavior _Investigate () {
+        //Begin preconditions
+        precondition {
+            !(WR_PlotPoint__MurderSolvedWME )
+            _murderInfo = (WR_PlotPoint__MurdererWME _CluesFound < 5f _CluesFound::_currentClueCount  _MurdererName::_murdererName  _MurderHideoutName::_murdererHideoutName )
+            (WR_PlotPoint__CrimeInfoWME  _VictimName::_victimName  _DetectiveName::_detectiveName )
+            (WR_CharacterWME _Name == _victimName  rel_targetname__Coworker::_coworkerName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        float _newClueCount;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_detectiveName);
+            fragLocalPrimitives.add(_coworkerName);
+            fragLocalPrimitives.add(_victimName);
+            fragLocalPrimitives.add(_victimName);
+            fragLocalPrimitives.add(_murdererName);
+            fragLocalPrimitives.add(_murdererHideoutName);
+        }
+        act print ("Now, <detectiveName> makes a trip to the house of <coworkerName>, a coworker of <victimName>. He talks to this coworker and discovers that <victimName> had been doing business with a supposedly former enemy, <murdererName>, and had planned a trip out to <murdererHideoutName> to pick up some equipment to sell. ", fragLocalPrimitives);
+        
+        mental_act {
+            _newClueCount = _currentClueCount + 1f;
+        }
+        
+        mental_act {
+            _murderInfo.set_CluesFound(_newClueCount);
+        }
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _Investigate ();
+        /****************************************** End Subgoal ******************************************/
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    //Plot Fragment Name: Find clue at murderer hideout
+    sequential behavior _Investigate () {
+        //Begin preconditions
+        precondition {
+            !(WR_PlotPoint__MurderSolvedWME )
+            _murderInfo = (WR_PlotPoint__MurdererWME  _MurdererName::_murdererName  _MurderHideoutName::_murdererHideoutName _CluesFound < 5f _CluesFound::_currentClueCount )
+            (WR_PlotPoint__CrimeInfoWME  _VictimName::_victimName  _CrimeSceneName::_crimeSceneName  _DetectiveName::_detectiveName )
+            (WR_EnvironmentWME _Name == _murdererHideoutName  _Description::_hideoutDescription )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        float _newClueCount;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_detectiveName);
+            fragLocalPrimitives.add(_hideoutDescription);
+            fragLocalPrimitives.add(_crimeSceneName);
+            fragLocalPrimitives.add(_murdererName);
+        }
+        act print ("On a hunch, <detectiveName> decides to checkout <hideoutDescription>, which is nearby the crime scene at <crimeSceneName>. There, he finds a potential murder weapon, and, conveniently, the personal ID of <murdererName>. This puzzles him greatly, and he decides to make note of this, just in case it is important information.", fragLocalPrimitives);
+        
+        mental_act {
+            _newClueCount = _currentClueCount + 1f;
+        }
+        
+        mental_act {
+            _murderInfo.set_CluesFound(_newClueCount);
+        }
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _Investigate ();
+        /****************************************** End Subgoal ******************************************/
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    //Plot Fragment Name: Put together clues and finish investigation
+    sequential behavior _Investigate () {
+        //Begin preconditions
+        precondition {
+            (WR_PlotPoint__MurdererWME _CluesFound == 5f )
+            (WR_PlotPoint__CrimeInfoWME  _VictimName::_victimName  _DetectiveName::_detectiveName  _CrimeSceneName::_crimeSceneName )
+            (WR_EnvironmentWME _Name != _crimeSceneName _Name::_newEnvironmentName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        WR_PlotPoint__MurderSolvedWME _murderSolvedInfo;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_detectiveName);
+            fragLocalPrimitives.add(_newEnvironmentName);
+        }
+        act print ("Frustrated and out of ideas, <detectiveName> takes a stroll down to <newEnvironmentName> to think over all the clues. Suddenly, a spark ignites in his mind, and all the evidence comes together - he has it! ", fragLocalPrimitives);
+        
+        
+        mental_act {
+            _murderSolvedInfo = new WR_PlotPoint__MurderSolvedWME ( 
+                705, 
+                true
+            );
+            BehavingEntity.getBehavingEntity().addWME(_murderSolvedInfo);
+        }
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    
+    //Plot Fragment Name: Solve with celebration
+    sequential behavior _SolvetheCrime () {
+        //Begin preconditions
+        precondition {
+            (WR_PlotPoint__MurderSolvedWME )
+            (WR_PlotPoint__CrimeInfoWME  _VictimName::_victimName  _DetectiveName::_detectiveName  _CrimeSceneName::_crimeSceneName )
+            (WR_PlotPoint__MurdererWME  _MurdererName::_murdererName  _MurderHideoutName::_hideoutName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_detectiveName);
+            fragLocalPrimitives.add(_murdererName);
+            fragLocalPrimitives.add(_victimName);
+            fragLocalPrimitives.add(_crimeSceneName);
+            fragLocalPrimitives.add(_hideoutName);
+        }
+        act print ("<detectiveName> drives as fast as he can to the police station, ripe with pride. He bursts into the precinct, and slams down his set of notes with a circled bit of information. He calls for the chief of police, and excitedly yells \"<murdererName> murdered <victimName> at <crimeSceneName>! You can find our the killer now at <hideoutName>!\" The detective then turns around swiftly, smiles, and walks out the door, eager for another case. ", fragLocalPrimitives);
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    //Plot Fragment Name: Solve with smugness
+    sequential behavior _SolvetheCrime () {
+        //Begin preconditions
+        precondition {
+            (WR_PlotPoint__MurderSolvedWME )
+            (WR_PlotPoint__CrimeInfoWME  _VictimName::_victimName  _DetectiveName::_detectiveName  _CrimeSceneName::_crimeSceneName )
+            (WR_PlotPoint__MurdererWME  _MurdererName::_murdererName  _MurderHideoutName::_hideoutName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_detectiveName);
+            fragLocalPrimitives.add(_detectiveName);
+            fragLocalPrimitives.add(_murdererName);
+            fragLocalPrimitives.add(_victimName);
+            fragLocalPrimitives.add(_crimeSceneName);
+            fragLocalPrimitives.add(_murdererName);
+            fragLocalPrimitives.add(_hideoutName);
+        }
+        act print ("<detectiveName> takes a cab over to the police station, full of self-accomplishment and assurance that he was the only one that could have solved this tricky crime. The cab pulls up, and he strolls into the precint, looking smugly at all the other police officers. <detectiveName> waltzes into the chief of police's office and gently places a piece of paper with the details of the case onto his large desk. He begins to walk out and just before leaving, he says \"Oh yeah, <murdererName> killed <victimName> at <crimeSceneName>. You can find <murdererName> at <hideoutName> and arrest our killer, if you want. Easy as pie.\"", fragLocalPrimitives);
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    
+    //Plot Fragment Name: Capture alive
+    sequential behavior _CapturetheMurderer () {
+        //Begin preconditions
+        precondition {
+            (WR_PlotPoint__MurderSolvedWME )
+            (WR_PlotPoint__MurdererWME  _MurdererName::_murdererName  _MurderHideoutName::_hideoutName )
+            (WR_PlotPoint__CrimeInfoWME  _DetectiveName::_detectiveName  _VictimName::_victimName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_hideoutName);
+            fragLocalPrimitives.add(_murdererName);
+            fragLocalPrimitives.add(_murdererName);
+            fragLocalPrimitives.add(_detectiveName);
+            fragLocalPrimitives.add(_murdererName);
+            fragLocalPrimitives.add(_victimName);
+        }
+        act print ("A dozen officers, at the orders of the chief, rush into cars and head over to <hideoutName>. When they get there, they are met with an odd silence, and no sign of <murdererName>. Guns drawn, they cautiously search for the murderer, finding <murdererName> with hands up in the air, awaiting inevitable fait. \"I knew I couldn't escape the wit of  <detectiveName>\", <murdererName> says. \"He's too good. I confess - I killed <victimName>\". He begins to weep.", fragLocalPrimitives);
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    //Plot Fragment Name: Capture alive after fight
+    sequential behavior _CapturetheMurderer () {
+        //Begin preconditions
+        precondition {
+            (WR_PlotPoint__MurderSolvedWME )
+            (WR_PlotPoint__MurdererWME  _MurdererName::_murdererName  _MurderHideoutName::_hideoutName )
+            (WR_PlotPoint__CrimeInfoWME  _VictimName::_victimName  _DetectiveName::_detectiveName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_hideoutName);
+            fragLocalPrimitives.add(_murdererName);
+            fragLocalPrimitives.add(_murdererName);
+            fragLocalPrimitives.add(_detectiveName);
+            fragLocalPrimitives.add(_victimName);
+            fragLocalPrimitives.add(_murdererName);
+        }
+        act print ("An entire fleet of cop cars filled with armed officers rushes over to <hideoutName> on the hunt to capture <murdererName>. Upon arriving, they are immediately met with gunfire and threats. The officers fire back and over the chaotic explosions you can hear <murdererName> cursing <detectiveName>'s name. A small group of officers sneak up from behind and disarm the murderer in a frantic split second. \"Alright! I confess - I killed <victimName> and I would do it again!\", says <murdererName> angrily, pinned to the ground.", fragLocalPrimitives);
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    
+    //Plot Fragment Name: Clean up plot points and restart
+    sequential behavior _RestartStory () {
+        //Begin preconditions
+        precondition {
+            _crimeInfo = (WR_PlotPoint__CrimeInfoWME )
+            _murderInfo = (WR_PlotPoint__MurdererWME )
+            _murderSolvedInfo = (WR_PlotPoint__MurderSolvedWME )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        //End local variables
+        
+        //Begin behavior actions 
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        
+        mental_act {
+            BehavingEntity.getBehavingEntity().deleteWME(_crimeInfo);
+        }
+        
+        
+        mental_act {
+            BehavingEntity.getBehavingEntity().deleteWME(_murderInfo);
+        }
+        
+        
+        mental_act {
+            BehavingEntity.getBehavingEntity().deleteWME(_murderSolvedInfo);
+        }
+        
+        /****************************************** Begin Subgoal ******************************************/
+        //First, check for interactivity
+        with (priority 750) subgoal WR_InteractivityCheck();
+        //Next, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 500, property isCounted false, post) subgoal _DoMurderMystery ();
+        /****************************************** End Subgoal ******************************************/
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    
+    //Plot Fragment Name: Murderer is random other person
+    sequential behavior _ChangetheMurderer () {
+        //Begin preconditions
+        precondition {
+            _murdererPP = (WR_PlotPoint__MurdererWME  _MurdererName::_prevMurdererName )
+            (WR_CharacterWME _Detective == false _Name != _prevMurdererName _Name::_newMurdererName )
+        }
+        //End preconditions
+        
+        //Begin local variables
+        ArrayList fragLocalPrimitives;
+        //End local variables
+        
+        //Begin behavior actions 
+        mental_act { fragLocalPrimitives = new ArrayList(); }
+        //World state management
+        with (priority 7000) subgoal UTIL_SaveWorldState();
+        
+        
+        mental_act {
+            _murdererPP.set_MurdererName(_newMurdererName);
+        }
+        
+        mental_act {
+            fragLocalPrimitives.clear();
+            fragLocalPrimitives.add(_prevMurdererName);
+            fragLocalPrimitives.add(_newMurdererName);
+        }
+        act print ("                                                                                            (Cut to the dark hideout of our ruthless killer. Before sleeping for the night, <prevMurdererName> stares coldly into a bathroom mirror and removes a thin latex mask. Underneath the disguise appears the face of <newMurdererName>, the true villian in this story.)                                                                       ", fragLocalPrimitives);
+        
+        
+        //World state management
+        with (priority 7000) subgoal UTIL_RemoveWorldState();
+    }
+    
+    
+    sequential behavior UTIL_GenerateStory() {
+        specificity 2;
+        mental_act {
+            
+            tempTotalWMEState.clear();
+            WR_CharacterWME newEntity0 = new WR_CharacterWME ( 
+                12, 
+                "John Smith", 
+                true, 
+                34f, 
+                "Brooklyn, New York", 
+                "Male", 
+                false, 
+                true, 
+                "Gene Franks", 
+                10, 
+                "Jerry Fontana", 
+                3, 
+                "Cindy Rollins", 
+                10
+            );
+            tempTotalWMEState.add(newEntity0);
+            
+            WR_CharacterWME newEntity1 = new WR_CharacterWME ( 
+                109, 
+                "Jerry Fontana", 
+                true, 
+                45f, 
+                "Seattle, Washington", 
+                "Male", 
+                false, 
+                true, 
+                "Gene Franks", 
+                10, 
+                "John Smith", 
+                10, 
+                "Rachel Delores", 
+                10
+            );
+            tempTotalWMEState.add(newEntity1);
+            
+            WR_CharacterWME newEntity2 = new WR_CharacterWME ( 
+                120, 
+                "Cindy Rollins", 
+                true, 
+                28f, 
+                "San Diego, California", 
+                "Female", 
+                false, 
+                true, 
+                "John Smith", 
+                10, 
+                "Jerry Fontana", 
+                2, 
+                "Rachel Delores", 
+                10
+            );
+            tempTotalWMEState.add(newEntity2);
+            
+            WR_CharacterWME newEntity3 = new WR_CharacterWME ( 
+                200, 
+                "Gene Franks", 
+                true, 
+                49f, 
+                "Los Angeles, CA", 
+                "Male", 
+                false, 
+                true, 
+                "John Smith", 
+                10, 
+                "Cindy Rollins", 
+                20, 
+                "Jerry Fontana", 
+                20
+            );
+            tempTotalWMEState.add(newEntity3);
+            
+            WR_CharacterWME newEntity4 = new WR_CharacterWME ( 
+                211, 
+                "Rachel Delores", 
+                true, 
+                51f, 
+                "Lyndhurst, New Jersey", 
+                "Female", 
+                false, 
+                true, 
+                "John Smith", 
+                10, 
+                "Jerry Fontana", 
+                20, 
+                "Cindy Rollins", 
+                10
+            );
+            tempTotalWMEState.add(newEntity4);
+            
+            WR_CharacterWME newEntity5 = new WR_CharacterWME ( 
+                131, 
+                "Dick Tracy", 
+                false, 
+                39f, 
+                "Noir City, Nowhere", 
+                "Male", 
+                true, 
+                true, 
+                "No One", 
+                0, 
+                "No One", 
+                0, 
+                "No One", 
+                0
+            );
+            tempTotalWMEState.add(newEntity5);
+            
+            WR_CharacterWME newEntity6 = new WR_CharacterWME ( 
+                222, 
+                "Sherlock Holmes", 
+                false, 
+                42f, 
+                "London, England", 
+                "Male", 
+                true, 
+                true, 
+                "No One", 
+                0, 
+                "No One", 
+                0, 
+                "No One", 
+                0
+            );
+            tempTotalWMEState.add(newEntity6);
+            
+            
+            WR_EnvironmentWME newEntity7 = new WR_EnvironmentWME ( 
+                41, 
+                "The Docks", 
+                "the dirty, wet docks down by Porter street", 
+                "9 pm", 
+                true, 
+                true, 
+                "The Abandoned Shack", 
+                0
+            );
+            tempTotalWMEState.add(newEntity7);
+            
+            WR_EnvironmentWME newEntity8 = new WR_EnvironmentWME ( 
+                142, 
+                "The Alleyway", 
+                "the dark, rat-infested alley behind the liquor store on 15th street", 
+                "2 am", 
+                false, 
+                true, 
+                "The Docks", 
+                0
+            );
+            tempTotalWMEState.add(newEntity8);
+            
+            WR_EnvironmentWME newEntity9 = new WR_EnvironmentWME ( 
+                148, 
+                "The City Park", 
+                "the large, open city park in the middle of the city", 
+                "4 am", 
+                true, 
+                true, 
+                "The Shady Bar", 
+                0
+            );
+            tempTotalWMEState.add(newEntity9);
+            
+            WR_EnvironmentWME newEntity10 = new WR_EnvironmentWME ( 
+                154, 
+                "The Shady Bar", 
+                "the local smokey bar filled with neighborhood drunks", 
+                "11 pm", 
+                true, 
+                false, 
+                "The Docks", 
+                0
+            );
+            tempTotalWMEState.add(newEntity10);
+            
+            WR_EnvironmentWME newEntity11 = new WR_EnvironmentWME ( 
+                233, 
+                "The Abandoned Shack", 
+                "the remotely located, burned out old shack", 
+                "8 pm", 
+                false, 
+                true, 
+                "The Docks", 
+                0
+            );
+            tempTotalWMEState.add(newEntity11);
+            
+            
+            Collections.shuffle(tempTotalWMEState);
+            BehavingEntity.getBehavingEntity().getWorkingMemory().addWMEs(tempTotalWMEState);
+        }
+        
+        with (priority 500, property storyTop true, property isCounted false, post) subgoal _DoMurderMystery();
+        
+        act print("Story Completed!", TrueObject);
+        act abort();
+    }
+    
+    //Duplicate main goal to exit if failure occurs
+    sequential behavior UTIL_GenerateStory() {
+        specificity 1;
+        act print ("Your story has failed :(", TrueObject);
+        act abort();
+    }
+    
+    
+    sequential behavior WR_StoryStateShuffle() {
+        //Total Hack: Manually shuffle story state so author goals can match randomly to WME's
+        mental_act {
+            Object[] wmeArray;
+            List tempWMEList;
+            tempTotalWMEState.clear();
+            tempWMEList = BehavingEntity.getBehavingEntity().lookupWME("WR_CharacterWME");
+            tempTotalWMEState.addAll(tempWMEList);
+            wmeArray = tempWMEList.toArray();
+            for(int i = 0; i < wmeArray.length; i++) {
+                BehavingEntity.getBehavingEntity().deleteWME((WR_CharacterWME)wmeArray[i]);
+            }
+            
+            tempWMEList = BehavingEntity.getBehavingEntity().lookupWME("WR_EnvironmentWME");
+            tempTotalWMEState.addAll(tempWMEList);
+            wmeArray = tempWMEList.toArray();
+            for(int i = 0; i < wmeArray.length; i++) {
+                BehavingEntity.getBehavingEntity().deleteWME((WR_EnvironmentWME)wmeArray[i]);
+            }
+            
+            tempWMEList = BehavingEntity.getBehavingEntity().lookupWME("WR_PlotPoint__CrimeInfoWME");
+            tempTotalWMEState.addAll(tempWMEList);
+            wmeArray = tempWMEList.toArray();
+            for(int i = 0; i < wmeArray.length; i++) {
+                BehavingEntity.getBehavingEntity().deleteWME((WR_PlotPoint__CrimeInfoWME)wmeArray[i]);
+            }
+            tempWMEList = BehavingEntity.getBehavingEntity().lookupWME("WR_PlotPoint__MurdererWME");
+            tempTotalWMEState.addAll(tempWMEList);
+            wmeArray = tempWMEList.toArray();
+            for(int i = 0; i < wmeArray.length; i++) {
+                BehavingEntity.getBehavingEntity().deleteWME((WR_PlotPoint__MurdererWME)wmeArray[i]);
+            }
+            tempWMEList = BehavingEntity.getBehavingEntity().lookupWME("WR_PlotPoint__MurderSolvedWME");
+            tempTotalWMEState.addAll(tempWMEList);
+            wmeArray = tempWMEList.toArray();
+            for(int i = 0; i < wmeArray.length; i++) {
+                BehavingEntity.getBehavingEntity().deleteWME((WR_PlotPoint__MurderSolvedWME)wmeArray[i]);
+            }
+            
+            Collections.shuffle(tempTotalWMEState);
+            BehavingEntity.getBehavingEntity().getWorkingMemory().addWMEs(tempTotalWMEState);
+        }
+    }
+    
+    //Parent behavior that calls all checks for sensed interactivity WME's
+    sequential behavior WR_InteractivityCheck() {
+        
+        
+        // Interactivity Checks
+        with (priority 750, property isCounted false, ignore_failure) subgoal InteractivityCheck_0();
+        succeed_step;
+    }
+    
+    sequential behavior InteractivityCheck_0() {
+        precondition {
+            w = (WR_InteractionWME id == 0)
+        }
+        
+        act print ("Interaction!", TrueObject);
+        mental_act { BehavingEntity.getBehavingEntity().deleteWME(w); }
+        
+        //First, manually shuffle Story State WME's for random selection
+        with (priority 500, property isCounted false) subgoal WR_StoryStateShuffle();
+        //Do actual subgoal call now
+        with (priority 750, property isCounted false, post) subgoal _ChangetheMurderer ();
+    }
+    
+    	
+	sequential behavior DAEMON_UndoDaemon() {
+		WR_UndoWME w;
+		with( success_test { w = (WR_UndoWME) } ) wait;
+		
+		with (priority 1000) subgoal UTIL_UndoStory();
+		
+		mental_act { BehavingEntity.getBehavingEntity().deleteWME(w); }
+		
+	}
+
+	sequential behavior UTIL_UndoStory() {
+		precondition {
+			gWME = (GoalStepWME storyTop != null)
+		}
+		mental_act {
+		
+			
+			StepWME child = ((SequentialBehaviorWME)gWME.getChild()).getChild();
+			for(;
+			    (child.getStepType() == Step.GOAL) && (((GoalStepWME)child).getChild() != null);
+				 child = (((SequentialBehaviorWME)((GoalStepWME)child).getChild())).getChild()
+				) {}
+				(child.getParent()).getParent().resetStep(); 
+
+				
+		}
+		
+		subgoal UTIL_RestoreWorldState();
+		act print ("**** Undoing .... ****", TrueObject);
+	
+	}
+	
+
+	sequential behavior DAEMON_SubgoalCountDaemon() {
+		GoalStepWME gWME;
+		with ( success_test { 
+				gWME = (GoalStepWME isExecuting == true
+								    isCounted != TrueObject
+									signature != "DAEMON_UndoDaemon"
+									signature != "UTIL_UndoStory"
+									signature != "DAEMON_SubgoalCountDaemon"
+									signature != "UTIL_SaveWorldState"
+									signature != "UTIL_RestoreWorldState"
+									signature != "UTIL_RemoveWorldState"
+									signature != "DAEMON_ShutdownDaemon"
+									signature != "DAEMON_LongExecutionShutdownDaemon"
+									signature != "DAEMON_StoryGoalFailureNotificationWME"
+									signature != "UTIL_GenerateStory"
+									signature != "WR_InteractivityCheck"
+									signature != "WR_StoryStateShuffle"
+									signature != "initial_tree")
+				} ) wait;
+				
+		mental_act {
+			gExecCount++;
+			//Flag story goal as counted
+			gWME.setProperty("isCounted", TrueObject);
+	
+		}
+
+	}
+	
+	
+	sequential behavior DAEMON_LongExecutionShutdownDaemon() {
+		with( success_test { (gExecCount > gMaxExecCount) } ) wait;
+		
+	
+		act print("Your story appears to be taking too long to finish. It has been automatically ended.", TrueObject);
+		act abort();
+	}
+	 
+
+	sequential behavior DAEMON_ShutdownDaemon() {
+		with( success_test { (WR_AbortWME) } ) wait;
+		
+		act print("**** Ending story generation! ****", TrueObject);
+			
+		act abort();
+	}
+	
+
+	
+	sequential behavior DAEMON_StoryGoalFailureNotification() {
+		String message;
+		CompletedGoalWME w;
+		with( success_test { 
+				w = (CompletedGoalWME 
+						completionStatus == 1)
+			} ) wait;
+		
+		mental_act {
+			BehavingEntity.getBehavingEntity().deleteWME(w);
+			message = "**** Author Goal Failed ****";
+		}
+		act print (message, TrueObject);
+	}
+	
+	
+
+
+
+	sequential behavior UTIL_RemoveWorldState() {
+		mental_act {
+			gWorldStateStack.pop();
+		}
+	}
+	
+    
+    sequential behavior UTIL_SaveWorldState() {
+        mental_act {
+            ArrayList wmeState =  new ArrayList();
+            wmeState.addAll(BehavingEntity.getBehavingEntity().lookupWME("WR_CharacterWME"));
+            wmeState.addAll(BehavingEntity.getBehavingEntity().lookupWME("WR_EnvironmentWME"));
+            wmeState.addAll(BehavingEntity.getBehavingEntity().lookupWME("WR_PlotPoint__CrimeInfoWME"));
+            wmeState.addAll(BehavingEntity.getBehavingEntity().lookupWME("WR_PlotPoint__MurdererWME"));
+            wmeState.addAll(BehavingEntity.getBehavingEntity().lookupWME("WR_PlotPoint__MurderSolvedWME"));
+            gWorldStateStack.push(wmeState);
+        }
+    }
+    
+    sequential behavior UTIL_RestoreWorldState() {
+        mental_act {
+            Object[] wmeArray;
+            List tempWMEList;
+            tempTotalWMEState.clear();
+            tempWMEList = BehavingEntity.getBehavingEntity().lookupWME("WR_CharacterWME");
+            tempTotalWMEState.addAll(tempWMEList);
+            wmeArray = tempWMEList.toArray();
+            for(int i = 0; i < wmeArray.length; i++) {
+                BehavingEntity.getBehavingEntity().deleteWME((WR_CharacterWME)wmeArray[i]);
+            }
+            
+            tempWMEList = BehavingEntity.getBehavingEntity().lookupWME("WR_EnvironmentWME");
+            tempTotalWMEState.addAll(tempWMEList);
+            wmeArray = tempWMEList.toArray();
+            for(int i = 0; i < wmeArray.length; i++) {
+                BehavingEntity.getBehavingEntity().deleteWME((WR_EnvironmentWME)wmeArray[i]);
+            }
+            
+            tempWMEList = BehavingEntity.getBehavingEntity().lookupWME("WR_PlotPoint__CrimeInfoWME");
+            tempTotalWMEState.addAll(tempWMEList);
+            wmeArray = tempWMEList.toArray();
+            for(int i = 0; i < wmeArray.length; i++) {
+                BehavingEntity.getBehavingEntity().deleteWME((WR_PlotPoint__CrimeInfoWME)wmeArray[i]);
+            }
+            tempWMEList = BehavingEntity.getBehavingEntity().lookupWME("WR_PlotPoint__MurdererWME");
+            tempTotalWMEState.addAll(tempWMEList);
+            wmeArray = tempWMEList.toArray();
+            for(int i = 0; i < wmeArray.length; i++) {
+                BehavingEntity.getBehavingEntity().deleteWME((WR_PlotPoint__MurdererWME)wmeArray[i]);
+            }
+            tempWMEList = BehavingEntity.getBehavingEntity().lookupWME("WR_PlotPoint__MurderSolvedWME");
+            tempTotalWMEState.addAll(tempWMEList);
+            wmeArray = tempWMEList.toArray();
+            for(int i = 0; i < wmeArray.length; i++) {
+                BehavingEntity.getBehavingEntity().deleteWME((WR_PlotPoint__MurderSolvedWME)wmeArray[i]);
+            }
+            
+            List restoreList = (List)gWorldStateStack.pop();
+            Collections.shuffle(restoreList);
+            WorkingMemory w = BehavingEntity.getBehavingEntity().getWorkingMemory();
+            w.addWMEs(restoreList);
+        }
+    }
+    
+    
+    
+    initial_tree {
+        
+        
+        //Wrap start goal in sequential behavior to exit program when finished
+        with (priority 500) subgoal UTIL_GenerateStory();
+        
+        
+        
+        //Utility Daemons
+        with (priority 1000, persistent) subgoal DAEMON_UndoDaemon();
+        with (priority 3000, persistent) subgoal DAEMON_ShutdownDaemon();
+        with (priority 4000, persistent) subgoal DAEMON_LongExecutionShutdownDaemon();
+        with (priority 5000, persistent) subgoal DAEMON_StoryGoalFailureNotification();
+        with (priority 6000, persistent) subgoal DAEMON_SubgoalCountDaemon();
+        
+    }
+}

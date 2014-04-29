@@ -1,0 +1,55 @@
+﻿<Window x:Class="WideRuled2.WindowPlotFragmentEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"
+    xmlns:s="clr-namespace:System;assembly=mscorlib"
+    xmlns:sc="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:local="clr-namespace:WideRuled2"
+    Title="Edit Plot Fragment" Height="468.842" Width="900" Loaded="Window_Loaded">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52.093*" />
+            <RowDefinition Height="27.396*" />
+            <RowDefinition Height="23.326*" />
+            <RowDefinition Height="62.216*" />
+            <RowDefinition Height="43.222*" />
+            <RowDefinition Height="112.313*" />
+            <RowDefinition Height="55.899*" />
+            <RowDefinition Height="54.378*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="12.5*" />
+            <ColumnDefinition Width="178.75*" />
+            <ColumnDefinition Width="18.75*" />
+            <ColumnDefinition Width="185.537*" />
+            <ColumnDefinition Width="132.463*" />
+            <ColumnDefinition Width="16.25*" />
+            <ColumnDefinition Width="315.792*" />
+            <ColumnDefinition Width="17.958*" />
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="AliceBlue" Offset="0.0" />
+                <GradientStop Color="LightBlue" Offset="0.5" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Image Name="image1" Source="/WideRuled2;component/icons/AuthorGoals2.gif" Stretch="Uniform" Grid.Column="3" Width="48" Margin="137.537,4.444,0,0" HorizontalAlignment="Left" />
+        <xcdg:DataGridControl MouseDoubleClick="actionsDataGrid_MouseDoubleClick" AutoCreateColumns="False" EditTriggers="None" FontFamily="Trebuchet MS" FontSize="11" Margin="0,0.106,32,0" Name="actionsDataGrid" NavigationBehavior="RowOnly" ReadOnly="True" SelectionMode="Single" Grid.Column="6" Grid.Row="3" Grid.RowSpan="3">
+            <xcdg:DataGridControl.Columns>
+                <xcdg:Column FieldName="Description" Title="Description" Width="700" IsMainColumn="True" TextWrapping="WrapWithOverflow" />
+            </xcdg:DataGridControl.Columns>
+            <xcdg:DataGridControl.View>
+                <xcdg:TableView ShowRowSelectorPane="False" UseDefaultHeadersFooters="False" HorizontalGridLineThickness="1">
+                    <xcdg:TableView.Theme>
+                        <xcdg:AeroNormalColorTheme />
+                    </xcdg:TableView.Theme>
+                </xcdg:TableView>
+            </xcdg:DataGridControl.View>
+        </xcdg:DataGridControl>
+        <TextBlock FontFamily="Trebuchet MS" FontSize="20" Name="textBlockFrag" Text="PLOT FRAGMENT NAME" TextAlignment="Left" TextDecorations="None" Grid.Column="4" Grid.ColumnSpan="3" Margin="0,0,32,4.998" Width="Auto" Height="29.245" VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" /><TextBlock FontFamily="Trebuchet MS" FontSize="18" Name="textBlockStoryActions" Text="Story Actions" TextAlignment="Center" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="3" TextTrimming="CharacterEllipsis" />
+        <Button FontSize="30" HorizontalAlignment="Right" Name="btMoveUpAction" Width="24" Grid.Column="6" Grid.Row="3" Margin="0,0.106,0,0" Click="btMoveUpAction_Click" Grid.RowSpan="2">^</Button><Button FontSize="18" HorizontalAlignment="Right" Name="btMoveDownAction" Width="24" Grid.Column="6" Grid.Row="5" Click="btMoveDownAction_Click" Margin="0,7,0,0">v</Button>
+        <TextBlock FontFamily="Trebuchet MS" FontSize="18" Name="textBlockPrecondTitle" Text="Precondition" TextAlignment="Center" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" TextTrimming="CharacterEllipsis" /><TextBlock FontFamily="Trebuchet MS" FontSize="18" Name="textBlockAuthorGoal" Text="Author Goal" TextAlignment="Center" Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,17.589,0" Grid.Column="1" TextTrimming="CharacterEllipsis" />
+        <xcdg:DataGridControl MouseDoubleClick="precondDataGrid_MouseDoubleClick" AutoCreateColumns="False" EditTriggers="None" FontFamily="Trebuchet MS" FontSize="11" Margin="0,0.106,32,0" Name="precondDataGrid" NavigationBehavior="RowOnly" ReadOnly="True" SelectionMode="Single" Grid.Row="3" Grid.Column="3" Grid.RowSpan="3" Grid.ColumnSpan="2"><xcdg:DataGridControl.Columns><xcdg:Column FieldName="Description" IsMainColumn="True" Title="Description" Width="700" TextWrapping="WrapWithOverflow" /></xcdg:DataGridControl.Columns><xcdg:DataGridControl.View><xcdg:TableView ShowRowSelectorPane="False" UseDefaultHeadersFooters="False" HorizontalGridLineThickness="1"><xcdg:TableView.Theme><xcdg:AeroNormalColorTheme /></xcdg:TableView.Theme></xcdg:TableView></xcdg:DataGridControl.View></xcdg:DataGridControl><Button FontSize="30" HorizontalAlignment="Right" Name="btPrecondMoveUp" Width="24" Grid.Column="4" Grid.Row="3" Margin="0,0.106,0,0" Click="btPrecondMoveUp_Click" Grid.RowSpan="2">^</Button><Button FontSize="18" HorizontalAlignment="Right" Name="btPrecondMoveDown" Width="24" Grid.Column="4" Grid.Row="5" Click="btPrecondMoveDown_Click" Margin="0,7,0,0">v</Button><Button FontFamily="Trebuchet MS" Margin="0,9.282,307.02,12.852" Name="btOK" Grid.Column="3" Grid.Row="7" Grid.ColumnSpan="4" Click="btOK_Click" HorizontalAlignment="Right" Width="173.804">OK</Button><xcdg:DataGridControl AutoCreateColumns="False" EditTriggers="None" FontFamily="Trebuchet MS" FontSize="11" Margin="0,1.672,0,0" Name="paramDataGrid" NavigationBehavior="RowOnly" ReadOnly="True" SelectionMode="Single" Grid.Row="4" Grid.Column="1" Grid.RowSpan="2"><xcdg:DataGridControl.Columns><xcdg:Column FieldName="Name" IsMainColumn="True" Title="Name" Width="80" /><xcdg:Column FieldName="TypeString" Title="Type" Width="100" /></xcdg:DataGridControl.Columns><xcdg:DataGridControl.View><xcdg:TableView ShowRowSelectorPane="False" UseDefaultHeadersFooters="False"><xcdg:TableView.FixedHeaders><DataTemplate><xcdg:ColumnManagerRow /></DataTemplate></xcdg:TableView.FixedHeaders><xcdg:TableView.Theme><xcdg:AeroNormalColorTheme /></xcdg:TableView.Theme></xcdg:TableView></xcdg:DataGridControl.View></xcdg:DataGridControl><TextBlock FontFamily="Trebuchet MS" FontSize="16" Margin="0,9.282,17.589,19.992" Name="textBlockAuthGoalName" Text="GOAL NAME" TextAlignment="Center" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="1" FontWeight="Bold" TextTrimming="CharacterEllipsis" /><Button FontFamily="Trebuchet MS" Name="btChangeAuthGoal" Grid.Column="1" Grid.Row="6" Click="btChangeAuthGoal_Click" Margin="0,10.707,0,12.899">Change Goal ...</Button><TextBlock FontFamily="Trebuchet MS" FontSize="14" Name="textBlock2" Text="Parameters" TextAlignment="Center" Grid.Column="1" Grid.Row="3" Height="18.36" VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" /><Grid Grid.Column="3" Grid.Row="6" Margin="0,0,32,12.899" Name="grid1" Grid.ColumnSpan="2"><Grid.ColumnDefinitions><ColumnDefinition Width="69*" /><ColumnDefinition Width="75*" /><ColumnDefinition Width="74*" /><ColumnDefinition Width="68*" /></Grid.ColumnDefinitions><Button FontFamily="Trebuchet MS" Name="btNewPrecond" Click="btNewPrecond_Click" Margin="0,10.707,6,0.293">New ...</Button><Button FontFamily="Trebuchet MS" Margin="5.75,10.707,6.25,0.293" Name="btEditPrecond" Click="btEditPrecond_Click" Grid.Column="1">Edit ...</Button><Button FontFamily="Trebuchet MS" Margin="6.25,11.928,4.75,0.293" Name="btDuplicatePrecond" Grid.Column="2" Click="btDuplicatePrecond_Click">Copy</Button><Button FontFamily="Trebuchet MS" Name="btDeletePrecond" Click="btDeletePrecond_Click" Margin="5,11.928,0,0.054" Grid.Column="3">Delete</Button></Grid><Grid Grid.Column="6" Grid.Row="6" Margin="0,1,32,11.971" Name="grid2"><Grid.ColumnDefinitions><ColumnDefinition Width="69*" /><ColumnDefinition Width="72*" /><ColumnDefinition Width="75*" /><ColumnDefinition Width="67.792*" /></Grid.ColumnDefinitions><Button FontFamily="Trebuchet MS" Name="btNewAction" Click="btNewAction_Click" Margin="0,11.91,6,0">New ...</Button><Button FontFamily="Trebuchet MS" Margin="5,12.221,4,0" Name="btEditAction" Grid.Column="1" Click="btEditAction_Click">Edit ...</Button><Button FontFamily="Trebuchet MS" Margin="6,12.221,6.208,0" Name="btDuplicateAction" Grid.Column="2" Click="btDuplicateAction_Click">Copy</Button><Button FontFamily="Trebuchet MS" Margin="4.792,11.91,0,-0.162" Name="btDeleteAction" Grid.Column="3" Click="btDeleteAction_Click">Delete</Button></Grid>
+        <Button FontFamily="Trebuchet MS" Name="btEditFragName" Grid.Column="4" Margin="0,0,0,8.671" Grid.Row="1" Click="btEditFragName_Click" HorizontalAlignment="Right" Width="95">Edit Name ...</Button></Grid>
+</Window>

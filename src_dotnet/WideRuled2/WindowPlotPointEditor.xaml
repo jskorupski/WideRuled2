@@ -1,0 +1,42 @@
+﻿<Window x:Class="WideRuled2.WindowPlotPointEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:WideRuled2"
+    Title="New Plot Point" Height="532" Width="264.418" xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid"  SizeToContent="Manual" ResizeMode="CanResize" WindowStyle="SingleBorderWindow">
+    <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="AliceBlue" Offset="0.0" />
+                <GradientStop Color="LightBlue" Offset="0.5" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="78*" />
+            <ColumnDefinition Width="43.209*" />
+            <ColumnDefinition Width="121*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="435*" />
+            <RowDefinition Height="1.221*" />
+            <RowDefinition Height="57.779*" />
+        </Grid.RowDefinitions>
+        <xcdg:DataGridControl AutoCreateColumns="False" CellEditorDisplayConditions="RowIsBeingEdited, MouseOverCell, CellIsCurrent" EditTriggers="CellIsCurrent, ActivationGesture" Margin="27.775,94,29.174,0" Name="traitDataGrid" NavigationBehavior="RowOnly" ReadOnly="False" SelectionMode="Single" Grid.ColumnSpan="3" ValidationMode="CellEndingEdit" FontFamily="Trebuchet MS" Width="Auto">
+            <xcdg:DataGridControl.Columns>
+                <xcdg:Column FieldName="Name" IsMainColumn="True" Title="Name" Width="90" />
+                <xcdg:Column FieldName="Value" Title="Value" Width="85"  />
+            </xcdg:DataGridControl.Columns>
+            <xcdg:DataGridControl.View>
+                <xcdg:TableView ShowRowSelectorPane="False" UseDefaultHeadersFooters="False">
+                    <xcdg:TableView.FixedHeaders>
+                        <DataTemplate>
+                            <xcdg:ColumnManagerRow AllowSort="False" />
+                        </DataTemplate>
+                    </xcdg:TableView.FixedHeaders>
+                    <xcdg:TableView.Theme>
+                        <xcdg:AeroNormalColorTheme />
+                    </xcdg:TableView.Theme>
+                </xcdg:TableView>
+            </xcdg:DataGridControl.View>
+        </xcdg:DataGridControl>
+        <TextBlock FontFamily="Trebuchet MS" FontSize="18" Height="34" Margin="0,14,16,0" Name="titleTextBlockDescription" Text="New Plot Point:" TextAlignment="Left" TextDecorations="None" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="Auto" Grid.Column="1" TextTrimming="CharacterEllipsis" /><Button Margin="51,12.221" Name="btOK" Width="NaN" Grid.Row="2" Click="btOK_Click" FontFamily="Trebuchet MS" Grid.ColumnSpan="3">OK</Button><Image Margin="29.858,0,0,387" Name="image1" Source="/WideRuled2;component/icons/PlotPoints.gif" Stretch="Uniform" Width="48.209" HorizontalAlignment="Left" /><TextBlock FontFamily="Trebuchet MS" FontSize="18" Grid.ColumnSpan="3" Height="41" Margin="0,56,0,0" Name="titleTextBlock" Text="PLOT POINT NAME" TextAlignment="Center" TextDecorations="None" VerticalAlignment="Top" Width="Auto" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" /></Grid>
+</Window>

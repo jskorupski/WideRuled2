@@ -1,0 +1,108 @@
+	
+	sequential behavior DAEMON_UndoDaemon() {
+		WR_UndoWME w;
+		with( success_test { w = (WR_UndoWME) } ) wait;
+		
+		with (priority 1000) subgoal UTIL_UndoStory();
+		
+		mental_act { BehavingEntity.getBehavingEntity().deleteWME(w); }
+		
+	}
+
+	sequential behavior UTIL_UndoStory() {
+		precondition {
+			gWME = (GoalStepWME storyTop != null)
+		}
+		mental_act {
+		
+			
+			StepWME child = ((SequentialBehaviorWME)gWME.getChild()).getChild();
+			for(;
+			    (child.getStepType() == Step.GOAL) && (((GoalStepWME)child).getChild() != null);
+				 child = (((SequentialBehaviorWME)((GoalStepWME)child).getChild())).getChild()
+				) {}
+				(child.getParent()).getParent().resetStep(); 
+
+				
+		}
+		
+		subgoal UTIL_RestoreWorldState();
+		act print ("**** Undoing .... ****", TrueObject);
+	
+	}
+	
+
+	sequential behavior DAEMON_SubgoalCountDaemon() {
+		GoalStepWME gWME;
+		with ( success_test { 
+				gWME = (GoalStepWME isExecuting == true
+								    isCounted != TrueObject
+									signature != "DAEMON_UndoDaemon"
+									signature != "UTIL_UndoStory"
+									signature != "DAEMON_SubgoalCountDaemon"
+									signature != "UTIL_SaveWorldState"
+									signature != "UTIL_RestoreWorldState"
+									signature != "UTIL_RemoveWorldState"
+									signature != "DAEMON_ShutdownDaemon"
+									signature != "DAEMON_LongExecutionShutdownDaemon"
+									signature != "DAEMON_StoryGoalFailureNotificationWME"
+									signature != "UTIL_GenerateStory"
+									signature != "WR_InteractivityCheck"
+									signature != "WR_StoryStateShuffle"
+									signature != "initial_tree")
+				} ) wait;
+				
+		mental_act {
+			gExecCount++;
+			//Flag story goal as counted
+			gWME.setProperty("isCounted", TrueObject);
+	
+		}
+
+	}
+	
+	
+	sequential behavior DAEMON_LongExecutionShutdownDaemon() {
+		with( success_test { (gExecCount > gMaxExecCount) } ) wait;
+		
+	
+		act print("Your story appears to be taking too long to finish. It has been automatically ended.", TrueObject);
+		act abort();
+	}
+	 
+
+	sequential behavior DAEMON_ShutdownDaemon() {
+		with( success_test { (WR_AbortWME) } ) wait;
+		
+		act print("**** Ending story generation! ****", TrueObject);
+			
+		act abort();
+	}
+	
+
+	
+	sequential behavior DAEMON_StoryGoalFailureNotification() {
+		String message;
+		CompletedGoalWME w;
+		with( success_test { 
+				w = (CompletedGoalWME 
+						completionStatus == 1)
+			} ) wait;
+		
+		mental_act {
+			BehavingEntity.getBehavingEntity().deleteWME(w);
+			message = "**** Author Goal Failed ****";
+		}
+		act print (message, TrueObject);
+	}
+	
+	
+
+
+
+	sequential behavior UTIL_RemoveWorldState() {
+		mental_act {
+			gWorldStateStack.pop();
+		}
+	}
+	

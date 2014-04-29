@@ -1,0 +1,19 @@
+﻿<Window x:Class="WideRuled2.WindowTextInputDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Please Enter Text" Height="204.769" Width="314.824" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="27.347*" />
+            <ColumnDefinition Width="296.826*" />
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="AliceBlue" Offset="0.0" />
+                <GradientStop Color="LightBlue" Offset="0.5" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <TextBlock Height="43.355" Margin="0,31.349,0,0" Name="txtBlockOutputText" VerticalAlignment="Top" Text="DIALOG TEXT HERE" FontSize="14" FontFamily="Trebuchet MS" Grid.Column="1" TextWrapping="Wrap" />
+        <TextBox Margin="0,75,30.682,70" Name="textBoxInput" FontFamily="Trebuchet MS" TextWrapping="NoWrap" MaxLines="1" Grid.Column="1" KeyUp="textBoxInput_KeyUp"></TextBox>
+        <Button Height="33.35" Margin="0.017,0,0,18.676" Name="btOK" VerticalAlignment="Bottom" Grid.Column="1" HorizontalAlignment="Left" Width="111.389" Click="btOK_Click" FontFamily="Trebuchet MS">OK</Button><Button Height="33.35" Margin="126.063,0,30.762,18.676" Name="btCancel" VerticalAlignment="Bottom" Grid.Column="1" IsCancel="True" Click="btCancel_Click" FontFamily="Trebuchet MS">Cancel</Button></Grid>
+</Window>

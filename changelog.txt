@@ -1,0 +1,329 @@
+====How to use these files====
+
+
+1. Download the file “dotNetFx35setup.exe”. Run the program, follow the instructions. This is required to run Wide Ruled 2.
+   Alternatively, you can download the same file from Microsoft's website: 
+   http://www.microsoft.com/downloads/details.aspx?familyid=ab99342f-5d1a-413d-8319-81da479ab0d7&displaylang=en
+
+2. Download the WideRuled2_Release3.5_Full.zip file. Extract all the files to your computer somewhere 
+
+3. Run the file called “WideRuled2.exe” to launch the program
+
+
+NOTE: If you already have a version of Wide Ruled on your computer, then use the file "WideRuled2_Release3.2_UpdatedFiles.zip".
+Download the file, extract it to your computer, and copy these files OVER the files you already have for Wide Ruled. It should
+replace every file except for the folder "jdk6" inside of the "abl" folder.
+
+
+=====Bug Reports=====
+
+Bug reports:
+Please notify me of all bugs or problems. Specifically, if you are having an issue with the program not generating and 
+getting an error on the story output text box that says something about sockets/ports/networking, please tell me ASAP. 
+In addition, there is a file in the "abl" folder included with the program - called "UI_Log.txt". This saves error output 
+from the story generator each time you generate a story. If you have problems, email it to me, along with any story files 
+(.wr2 files) so I can check it out.
+
+
+
+====Update Notes====
+
+Release 3.5:
+
+Fixes:
+- Fixed bug where adding a new parameter to an Author Goal could result in a variable name conflict, since new parameter
+names were not checked to be unique within all child Plot Fragments
+- Fixed bug where Wide Ruled would attempt to delete all files and folders within it's generation folder in the 'abl' 
+directory - the program now ignores hidden folders and handles access restrictions properly
+
+Release 3.4:
+
+Fixes:
+- Fixed bug in story speaking feature
+
+Release 3.3:
+
+Fixes:
+- Fixed problem where a Text Output action could refer to a variable that was never created in plot fragment in which it resides
+- Better resizing behavior on Main window, Plot Fragment editor window, and Precondition editor windows, especially on very small
+ window sizes for low resolution screens.
+
+New Features:
+- Story Text generation speed is now based on the length of the text output, to make it easier to read. For each piece of text
+ that is generated, the longer the sentence, the longer the delay is before the next piece of text is generated. 
+- Speak your story: Select the "Speak" checkbox at the bottom of the Story while it is being generated, 
+and the computer will read back your story text automatically. 
+
+
+
+Release 3.2:
+
+Fixes:
+- Cleaned up some window resizing problems where some buttons and labels would shift much differently from the surrounding
+items
+- Fixed problem where using the != comparison with a String type parameter within a Precondition statement that checks for
+the non-existence of a Character/Environment/Plot Point results in the story not being generated at all
+- Cleaned up story generation code (internal fix, not relevant to story authors)
+
+Release 3.1:
+
+Fixes:
+- Selecting “save only” for a constraint that already has a saved variable name will now properly switch to the “save only”
+ option. Previously, it would not change and you would have to clear the variable name before switching to make it work.
+- Trying to edit a “Delete” action that refers to a no longer existing Plot Point used to crash the program – this has been 
+fixed
+- Changing constraint types from Trait to Relationship Target Name to Relationship Strength should now work a bit smoother – 
+previously, the comparison operation would get reset, and sometimes the stored variable name would remain, but not show up 
+in the window.
+
+Notes: 
+HOW TO CHECK IF A CHARACTER/ENVIRONMENT HAS  “No One” or “Nowhere” TARGET FOR A RELATIONSHIP:
+
+If you want to see if a character/environment has no target for the relationship, then put a constraint that compares the 
+target name to value “No One” or “Nowhere”, spelled exactly like that, with that same capitalization. You have to type it 
+in manually into the textbox. 
+
+For a character:     Trait “someRelationship” target name == No One
+For an environment:  Trait “someRelationship” target name == Nowhere
+
+
+
+Release 3.0:
+
+Fixes:
+- Text Parameter variables that are compared  within a precondition statement using the “Not Equals” , or != , 
+operation now work properly.
+
+
+Release 2.6:
+
+New Features:
+- If you have created some characters, environments, plot points, or plot fragments, and you click the "New" menu item
+to create a new story, Wide Ruled will now warn you that creating a new story will wipe out any previously unsaved data.
+- Interactivity works more consistently now. Modifying story objects in an interactive action should properly affect
+the rest of the story. There are cases when modifications will not properly change a character/environment/plot point,
+but it should be more rare now and only happen in very specific configurations of actions in a plot fragment.
+
+Fixes:
+- Using multiple interactivity actions works correctly now (previously, only the first interactive action worked)
+
+
+Release 2.5:
+
+New Features:
+- You can now edit the name of an existing Plot Fragment by clicking the “Edit Name…” button underneath the Plot Fragment 
+name title in the Edit Plot Fragment window
+- You can now edit the name of an existing Author Goal by clicking the “Edit Name…” button underneath the Author Name 
+title in the Edit Author Goal window
+
+Release 2.4:
+
+Detailed Notes about the Sample Story:
+
+It is a basic murder mystery story, with a bunch of friends/enemies/coworkers, and two detectives. It goes as follows:
+
+- Pick a victim, which is any character with the trait “potential victim” set as true and trait “Alive” set to true
+
+- Perform the murder, choose from:
+    o Random murderer – pick a random character who is NOT the victim, and NOT a detective, and choose that person as the
+ murderer. Also pick a random environment (with trait “potential murder location” set to true )to be the crime scene, get 
+the name of the crime scene, and also get the name of the “Nearby Location” relationship target – we will use this as the 
+hideout of the murderer. First, attack victim (see below), then create a Crime Info plot point and Murderer Plot Point that
+ fills in the information that we just got (crime scene name, victim name, murderer name, etc). 
+
+        ? Attack the victim
+            • Gunshot attack – print text, set victim to dead (alive trait is “false”)
+            • Stabbing attack – print text, set victim to dead 
+    o Murderer is enemy – pick the character who is set as the target of the “Enemy” relationship of the victim and make sure 
+the Strength of that “Enemy” relationship is greather than 5 (to represent very serious enemies, that could potentially kill the 
+victim). Also pick a random environment (with trait “potential murder location set to true) to be the crime scene, get the name of 
+the crime scene, and also get the name of the “Nearby Location” relationship target – we will use this as the hideout of the 
+murderer. First, attack victim (see below), then create a Crime Info plot point and Murderer Plot Point that fills in the information 
+that we just got (crime scene name, victim name, murderer name, etc)
+
+        ? Attack the victim
+            • Gunshot attack – print text, set victim to dead (alive trait is “false”)
+            • Stabbing attack – print text, set victim to dead 
+
+
+- Find the detective, pick from following
+    o Find drunk detective – choose a character who has the trait “Detective” set to true, and find the existing Crime Info plotpoint 
+in order to set the name of the detective. print some text about being drunk and getting the crime information from police, set the name 
+of the detective in the plot point
+    o Find sleeping detective – choose a character who has the trait “Detective” set to true, and find the existing Crime Info plotpoint 
+in order to set the name of the detective. print some text about being asleep and getting the crime information from police, set the 
+name of the detective in the plot point
+
+
+- Investigate:  In this author goal, we want the story to randomly choose some investigation plot fragment 5 times (to give the story some 
+length), then finally have the detective figure out the clues and finish the investigation goal. So we have four plot fragments that print
+ some text about investigation and then pursue “Investigate” again, causing a loop, and finally “Put together clues and finish investigation”
+ which prints some stuff about finishing investigation and DOES NOT pursue “Investigate” and ends the loop. The Murderer plot point keeps 
+track of the number of clues found so far (“Clues Found” trait), and each of the four investigating plot fragments checks first to see if 
+that clue count is less than 5, then increments that value by 1, so we always know how many investigation actions have been completed. The final
+plot fragment, which finishes investigations, checks to see if the Murder plot point has a clue count of 5, and is therefore the only plot 
+fragment to execute when that clue count is at 5 (the rest need it to be less than 5). This plot fragment also creates a “Murder Solved” plot 
+point, which cannot exist for any of the other investigation plot fragments to be able to execute. Technically this is a redundant away to 
+stop a plot fragment from executing (using a number count, or just checking for some plot fragment), but I wanted to show two ways to control 
+the way a plot fragment is chosen.
+    o Find crime scene evidence: get Crime Info and Murderer plot points, save detective name and victim name from Crime Info plot point, 
+print out stuff about finding clue at original crime scene, increment clue count with calculation
+    o Interview friend: get Crime Info and murderer pot points, save name of victim and detective from the Crime Info plot point, find 
+the victim character that has the name saved in the Crime Info plot point, and then save the name of the target of the “Friend” trait of 
+that victim, and then print out stuff about interviewing that friend, increment clue count with calculation
+    o Interview coworker: get Crime Info and murderer plot points, save name of victim and detective from Crime Info plot point, find the 
+victim character that has the name saved in the Crime Info plot point, and then save the name of the target of the “Coworker” trait of that
+ victim, and then print out stuff about interviewing that coworker, increment clue count with calculation
+    o Find clue at murderer hideout:  get the Crime Info and murder plot points, save name of original crime scene and detective from Crime
+ Info plot point, get the murder hideout name from the Murderer plot point, print some text explaining how the detective finds a clue at the
+ murderer’s hideout, increment clue count with calculation
+    o Put together clues and finish investigation – check to make sure the clue count Trait of the Murderer plot point is set to 5, then 
+create a new Murder solved plot point, and set the only trait to true
+
+
+- Solve the Crime, pick from these two:
+    o Solve with celebration – get Crime Info plot point, Murderer plot point, make sure Murder Solved plot point exists, print out  stuff 
+about the detective explaining his conclusions excitedly to cops
+    o Solve with smugness  - get Crime info plot point, Murderer plot point, make sure Murder solved plot point exists, print out stuff about 
+the detective explaining his conclusions in a smug manner to cops
+
+
+- Capture the murderer
+    o Capture alive – get Crime Info plot point, Murderer plot point, print out stuff about officers finding murderer in hideout and 
+surrendering, damning the detective
+    o Capture alive with fight – get Crime Info plot point, Murderer plot point, print out stuff about officers finding murderer in hideout 
+and fighting back and damning the detective, eventually being caught
+
+
+- Restart Story: this only has one plot fragment
+    o Clean up plot points and restart story – delete the Crime Info and Murderer plot points, as well as “Murder solved” plot point, 
+then pursue the original “Do Story” goal. The story should repeat, but  now that one of the characters (the one chosen to be the victim), 
+has the trait “Alive” set to false, the new victim to be chosen will be different. 
+
+
+After the story loops 5 times (5 is the number of characters I have that are potential victims and they are initially set to be alive), 
+the “No more alive victims” plot fragment underneath the “Do Murder Mystery” author goal will activate, printing out text about how there 
+are no more victims to kill.
+
+Other Notes about the Sample:
+-I don’t use the Interactivity Actions, mostly because the most important part here is generating the story, and there are some lingering bugs 
+with doing interactivity that still need to be dealth with. One could imagine having an interactivity action that activated a goal that changed
+ the insanity level of the murderer character, which would affect how the murderer surrendered (or didn’t) when the cops went after him/her.
+-I also don’t use the “Must Always Be True” feature of any of the constraints within a Precondition statement. This feature is useful only when
+ you plan to use   Interactivity actions, and you don’t know what interactivity actions the reader may activate while some plot fragment is 
+being executed. You can use it to make sure that it still makes sense the plot fragment in which this “Must always be true” constraint is contained
+ should still be active when something has been changed externally by the reader. For example, if some Interactivity Action sets the victim to be
+ alive, and the user does this in the middle of an investigation plot fragment, it could abruptly stop the plot fragment which talks about 
+investigating the dead body, and instead cause a new plot fragment (which you have already created in anticipation of this potential user 
+interaction) to fire, which deals with a victim that comes back to alive, or was never killed in the first place
+
+
+
+Fixes:
+- Deleting an Author Goal from the main list, and then trying to edit a Pursue Subgoal action that uses that missing Author Goal 
+will no longer cause a crash
+- If you have deleted an Author Goal that is used later inside a Pursue Subgoal action, Wide Ruled will not give a useful error 
+message telling you that the Action refers to a non-existent Author Goal
+- Editing the Shared traits list of an Environment now immediately updates the list of Traits and values for the Environment being edited.
+ Previously, this list appeared to not change until the window was closed and re-opened
+- Double clicking on an italic text Pursue Subgoal action in the main list of Author Goals and Plot Fragments will now properly take you 
+to the editor for the Author Goal being pursued
+
+
+
+Release 2.3:
+
+Fix:
+- Changing the name of the original "Name" trait and then trying to delete it caused a crash. This will no longer 
+happen, but you still need a "Name" trait with type Text somewhere in the list before the Shared Traits editor will 
+allow you to finish editing.
+- Deleting a Plot Point Type and then trying to edit an "Edit Object" or "Create Object" action that deals with that 
+Plot Point Type will no longer crash the program.
+
+
+A note about the Shared Traits list:
+
+Characters and Environments MUST have a “Name” trait with a text type. This is the way that you can refer to characters
+ in Wide Ruled and they can be displayed in the interface for you to choose. When editing the Shared Traits list, 
+Wide Ruled will make sure you have, somewhere in the list, a trait named "Name" with type 'Text'. If you don't, or 
+you have duplicate traits, it will tell you and  you have to fix it in order to continue.
+
+
+
+Release 2.2:
+
+Fixes:
+- In the main window, Italic Pursue Subgoal action labels underneath Plot Fragments in the hierarchical list now properly show up as
+the name of the Author Goal which is being pursued. 
+- Deleting a Plot Fragment in the main window no longer crashes the program
+
+Notes:
+- A recent issue came up in an email: How do you create a new object (Character/Environment/Plot Point) in a plot fragment,
+and fill it with variable values stored in that same plot fragment? The answer is to first create a new object with some 
+initial values you enter, using the "Create Object" action selection. That created object will be stored in the plot fragment 
+to a variable you named. Then use an "Edit Object" action to modify the traits or relationships of that object you just
+ created, within the same Plot Fragment.
+
+Release 2.1:
+
+Fixes/Info: 
+- Fixed: Problem where an author goal would fail when sending numbers to it either in an Interaction, or in a Subgoal Action
+
+- Undo works a bit better now – however, if you hit undo too much it will break it and stop generation, so be careful. 
+This feature is a work in progress.
+
+- Similarly, interactions during generation work most of the time, but sometimes can have odd effects (i.e. not 
+properly modifying a character/environment/plot point while it was in use by another plot fragment before the interaction 
+happened), which are still being worked out. This is also a work in progress.
+
+
+
+Release 2.0:
+
+Fixes:
+There are MAJOR fixes in this version, that include some subtle but major bugs in creating new plot points inside of 
+plot fragments, as well as several fixes to minor but quite annoying interface issues, like not saving the data you 
+entered when you click a button to add a new item to a list.
+
+New feature:
+Underneath the “Generate Story” button, there is now a checkbox that allows you to select whether you want to see 
+all the extra messages that tell you what plot fragment is running. If this is enabled, you will see many more messages 
+in the story text window telling you what the program is doing behind the scenes.
+
+
+
+
+Release 1.2:
+
+Fixes:
+- Changing the comparison type for a constraint in the preconditions statement editor does not clear the value you 
+had entered into the textbox.
+
+Update:
+- You can now set whether you want an individual constraint to be “always true”. This is only applicable for constraints 
+that are not “Save Only”. When enabled, these precondition constraints will constantly be checked during execution, and 
+if they ever change, the entire plot fragment fails. This is useful if you have complicated plot fragments with many 
+subgoals which in turn may also subgoal many times and do potentially unpredictable things to the story world. If 
+somewhere along the line, some attribute of a character, environment, or plot point changes and it does not meet the 
+precondition you want to always be true, the failure will occur and the story generator will go all the way back to the 
+goal called BEFORE that “always-true” constraint, and choose another plot fragment. 
+
+
+
+Release 1.1:
+
+Fixes:
+- Can now properly change the goal to pursue within the Subgoal Action editor
+- When generating a story, the characters, environments, or plot point types that you match in your precondition are
+ actually matched randomly now. Previously, they were matched in the order that they appeared in the main screen 
+(i.e. if two characters matched your plot fragment, the first in the list would always be chosen).
+
+Update:
+- When generating a story, there are now status messages showing when a plot fragment begins and ends. This isn't 
+very pretty to see in the text box, but it should make the process of debugging your story a lot easier.
+
+
+
+Release 1: 
+
+initial release

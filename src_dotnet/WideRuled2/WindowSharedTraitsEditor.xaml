@@ -1,0 +1,86 @@
+﻿<Window x:Class="WideRuled2.WindowSharedTraitsEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:WideRuled2"
+    Title="Edit Shared Traits" Height="518.306" Width="284.416" xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid" Loaded="Window_Loaded" SizeToContent="Manual" ResizeMode="CanResize" WindowStyle="SingleBorderWindow">
+    <Window.Resources>
+        <!--A data provider to bind to the Period enum-->
+        <ObjectDataProvider x:Key="traitTypes" 
+                          MethodName="getTraitDataTypes" 
+                          ObjectType="{x:Type local:StoryWorldDataProvider}" >
+        </ObjectDataProvider>
+        
+        <DataTemplate x:Key="entityDataTypeDataTemplate">
+            <TextBlock Text="{Binding }">
+            </TextBlock>
+        </DataTemplate>
+
+        <!--A cell content template that will be used to represent a data type with its name-->
+        <DataTemplate x:Key="entityDataTypeCellDataTemplate">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                           MinHeight="22"
+                           ContentTemplate="{StaticResource entityDataTypeDataTemplate}">
+            </ContentPresenter>
+        </DataTemplate>
+
+        <!--A cell editor that will be used to edit a Period column with a combo box-->
+        <xcdg:CellEditor x:Key="entityDataTypeEditor">
+            <xcdg:CellEditor.EditTemplate>
+                <DataTemplate>
+                    <ComboBox BorderThickness="0"
+                         Background="Transparent" 
+                         Foreground="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(TextElement.Foreground)}"
+                         MinHeight="22" 
+                         VerticalContentAlignment="Top"
+                         SelectedValuePath="."
+                         ItemsSource="{Binding Source={StaticResource traitTypes}}"
+                         ItemTemplate="{StaticResource entityDataTypeDataTemplate}"
+                         SelectedValue="{xcdg:CellEditorBinding}">
+                        <ComboBox.Resources>
+                            <Style TargetType="Popup">
+                                <Setter Property="TextElement.Foreground"
+                                Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+                            </Style>
+                        </ComboBox.Resources>
+                    </ComboBox>
+                </DataTemplate>
+            </xcdg:CellEditor.EditTemplate>
+        </xcdg:CellEditor>
+    </Window.Resources>
+    <Grid Height="Auto" Width="Auto" HorizontalAlignment="Stretch">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="AliceBlue" Offset="0.0" />
+                <GradientStop Color="LightBlue" Offset="0.5" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="152.262*" />
+            <ColumnDefinition Width="151.988*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="365.273*" />
+            <RowDefinition Height="56.295*" />
+            <RowDefinition Height="58.743*" />
+        </Grid.RowDefinitions>
+        <xcdg:DataGridControl AutoCreateColumns="False" CellEditorDisplayConditions="RowIsBeingEdited, MouseOverCell, CellIsCurrent" EditTriggers="CellIsCurrent, ActivationGesture" Margin="27.775,47.5,29.174,0" Name="relDataGrid" NavigationBehavior="RowOnly" ReadOnly="False" SelectionMode="Multiple" Width="Auto" Grid.ColumnSpan="2" ValidationMode="CellEndingEdit" FontFamily="Trebuchet MS">
+            <xcdg:DataGridControl.Columns>
+                <xcdg:Column FieldName="Name" IsMainColumn="True" Title="Name" Width="90" />
+                <xcdg:Column FieldName="TypeString" Title="Type" Width="85"  />
+            </xcdg:DataGridControl.Columns>
+            <xcdg:DataGridControl.View>
+                <xcdg:TableView ShowRowSelectorPane="True" UseDefaultHeadersFooters="False" GroupLevelIndicatorWidth="0">
+                    <xcdg:TableView.FixedHeaders>
+                        <DataTemplate>
+                            <xcdg:ColumnManagerRow AllowSort="False" />
+                        </DataTemplate>
+                    </xcdg:TableView.FixedHeaders>
+                    <xcdg:TableView.Theme>
+                        <xcdg:AeroNormalColorTheme />
+                    </xcdg:TableView.Theme>
+                </xcdg:TableView>
+            </xcdg:DataGridControl.View>
+        </xcdg:DataGridControl>
+        <TextBlock FontFamily="Trebuchet MS" FontSize="18" Margin="0,12.221,0,318.048" Name="titleTextBlock" Text="Shared Traits" TextAlignment="Center" TextDecorations="None" Width="NaN" Grid.ColumnSpan="2" TextTrimming="CharacterEllipsis" /><Button Margin="27.775,12.221,9.228,12.221" Name="btOK" Width="NaN" Grid.Row="2" Click="btOK_Click" FontFamily="Trebuchet MS">OK</Button><Button Margin="27.775,12.5,4.4,17.5" Name="btAddNew" Width="Auto" Grid.Row="1" Click="btAddNew_Click" FontFamily="Trebuchet MS">Add New</Button><Button Margin="5,12.5,29.174,17.5" Name="btDeleteSelected" Width="Auto" Grid.Row="1" Grid.Column="1" Click="btDeleteSelected_Click" FontFamily="Trebuchet MS">Delete Selected</Button><Button Margin="9.338,12.221,27.433,12.221" Name="btCancel" Width="Auto" Grid.Column="1" Grid.Row="2" Click="btCancel_Click" FontFamily="Trebuchet MS">Cancel</Button></Grid>
+</Window>
+

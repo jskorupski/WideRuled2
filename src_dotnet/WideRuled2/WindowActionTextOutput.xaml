@@ -1,0 +1,35 @@
+﻿<Window x:Class="WideRuled2.WindowActionTextOutput"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Text Output" Height="278" Width="350" Closing="Window_Closing" >
+    <Window.Resources>
+        <DataTemplate x:Key="comboBoxDataTemplate">
+            <TextBlock Text="{Binding Path=Name}">
+            </TextBlock>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="167*" />
+            <ColumnDefinition Width="161*" />
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="AliceBlue" Offset="0.0" />
+                <GradientStop Color="LightBlue" Offset="0.5" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <TextBox Name="textBoxInput" FontFamily="Trebuchet MS" TextWrapping="Wrap" IsReadOnly="False" Margin="14,14,14,114" VerticalScrollBarVisibility="Auto" AcceptsReturn="False" Grid.ColumnSpan="2"></TextBox>
+        <Button FontFamily="Trebuchet MS" Height="35" Margin="29,0,15,64" Name="btInsertVariable" VerticalAlignment="Bottom" Click="btInsertVariable_Click">Insert Variable</Button>
+        <ComboBox  
+            FontFamily="Trebuchet MS" 
+            Height="27" Margin="12,0,28,69" 
+            Name="comboVariables" 
+            VerticalAlignment="Bottom"
+            ItemTemplate="{StaticResource comboBoxDataTemplate}"
+            IsEditable="False"
+            Grid.Column="1">
+        </ComboBox>
+        <Button FontFamily="Trebuchet MS" Height="33"  Margin="61,0,49,14" Name="btOK" VerticalAlignment="Bottom" Click="btOK_Click" Grid.ColumnSpan="2">OK</Button>
+    </Grid>
+</Window>

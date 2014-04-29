@@ -1,0 +1,58 @@
+﻿<Window x:Class="WideRuled2.WindowActionCalculationEditor"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:WideRuled2"
+    Title="Edit Calculation" Closing="Window_Closing" Loaded="Window_Loaded" Height="209" Width="325" >
+    <Window.Resources>
+  
+        <DataTemplate x:Key="comboBoxDataTemplate">
+            <TextBlock Text="{Binding Path=Name}">
+            </TextBlock>
+        </DataTemplate>
+        <DataTemplate x:Key="comboBoxDataTemplateOp">
+            <TextBlock Text="{Binding Path=Name}">
+            </TextBlock>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42*" />
+            <RowDefinition Height="62*" />
+            <RowDefinition Height="67*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="115*" />
+            <ColumnDefinition Width="73*" />
+            <ColumnDefinition Width="115*" />
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="AliceBlue" Offset="0.0" />
+                <GradientStop Color="LightBlue" Offset="0.5" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <ComboBox  
+            FontFamily="Trebuchet MS" Margin="5.336,9,12.006,26" 
+            Name="comboBoxRight" ItemTemplate="{StaticResource comboBoxDataTemplate}"
+            IsEditable="False"
+            Grid.Column="2" Grid.Row="1" Visibility="Hidden">
+        </ComboBox>
+        <Button FontFamily="Trebuchet MS" Margin="87,18,83,16" Name="btOK" Click="btOK_Click" Grid.ColumnSpan="3" Grid.Row="2">OK</Button>
+        <ComboBox FontFamily="Trebuchet MS" IsEditable="False" ItemTemplate="{StaticResource comboBoxDataTemplate}" Margin="14.007,9,5.336,26" Name="comboBoxLeft" Grid.Row="1" Visibility="Hidden" />
+        <ComboBox FontFamily="Trebuchet MS" 
+                  IsEditable="False" 
+                  Margin="12.673,9,12.673,26" 
+                  Name="comboBoxOp" 
+                  Grid.Column="1" 
+                  Grid.Row="1" FontWeight="Bold" FontSize="18" HorizontalContentAlignment="Center">
+            <ComboBoxItem>+</ComboBoxItem>
+            <ComboBoxItem>-</ComboBoxItem>
+            <ComboBoxItem>*</ComboBoxItem>
+            <ComboBoxItem>/</ComboBoxItem>
+        </ComboBox>
+
+        <CheckBox Name="checkBoxLeftUseVar" Grid.Row="1" FontFamily="Trebuchet MS" Height="16" VerticalAlignment="Bottom" Margin="9,0,53,0" Unchecked="checkBoxLeftUseVar_Checked" Checked="checkBoxLeftUseVar_Checked" Grid.ColumnSpan="2" Width="Auto">Use Saved Variable</CheckBox>
+        <TextBlock FontFamily="Trebuchet MS" FontSize="18" Grid.ColumnSpan="3" Name="titleTextBlock" Text="VarName = " TextAlignment="Center" TextDecorations="None" TextWrapping="Wrap" Margin="0,12,0,0" TextTrimming="CharacterEllipsis" />
+        <CheckBox FontFamily="Trebuchet MS" Name="checkBoxRightUseVar" Grid.Column="1" Height="16" Grid.Row="1" VerticalAlignment="Bottom" Unchecked="checkBoxRightUseVar_Checked" Checked="checkBoxRightUseVar_Checked" Grid.ColumnSpan="2" Margin="64,0,0,0" Width="Auto">Use Saved Variable</CheckBox><xcdg:NumericTextBox Margin="22.664,9,5.336,30" Name="textBoxNumericLeft" xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid" FontFamily="Trebuchet MS" Visibility="Hidden" Grid.Row="1" /><xcdg:NumericTextBox FontFamily="Trebuchet MS" Margin="5.336,9,19.664,29.686" Name="textBoxNumericRight" Visibility="Hidden" xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid" Grid.Column="2" Grid.Row="1" />
+    </Grid>
+</Window>

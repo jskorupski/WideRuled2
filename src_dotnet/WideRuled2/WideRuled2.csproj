@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{04F9A3E7-526B-4AF7-A189-CDAB1EE68517}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WideRuled2</RootNamespace>
+    <AssemblyName>WideRuled2</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <ManifestCertificateThumbprint>A0D106D62C28B1143177D964E40744DA1AACB785</ManifestCertificateThumbprint>
+    <ManifestKeyFile>WideRuled2_TemporaryKey.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>false</SignManifests>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <PublishUrl>C:\Documents and Settings\James Skorupski\Desktop\testdeploy\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework.Aero">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationFramework.Royale">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Speech">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Controls, Version=2.0.8211.13450, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL" />
+    <Reference Include="Xceed.Wpf.DataGrid, Version=2.0.8211.13450, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL" />
+    <Reference Include="Xceed.Wpf.DataGrid.ThemePack.1, Version=2.0.8211.13450, Culture=neutral, PublicKeyToken=ba83ff368b7563c6, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="WindowActionCalculationEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowActionEditEntity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowActionSubgoalEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowAuthorGoalEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowCharacterEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowChooseActionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowEnvironmentEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowInteraction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowInteractionListEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WindowPlotFragmentEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowPlotPointEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowPlotPointTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowPreconditionEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowSharedRelationshipsEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowSharedTraitsEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowStoryDataAnalyzer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowStoryOutputText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowActionTextOutput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowTextInputDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="WindowMain.xaml.cs">
+      <DependentUpon>WindowMain.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AblCommunicator.cs" />
+    <Compile Include="ActionCalculation.cs" />
+    <Compile Include="ActionDeleteEntity.cs" />
+    <Compile Include="IndentingWriter.cs" />
+    <Compile Include="AblCommObject.cs" />
+    <Compile Include="StoryDataAnalyzer.cs" />
+    <Compile Include="WindowActionCalculationEditor.xaml.cs">
+      <DependentUpon>WindowActionCalculationEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ActionCreateCharacter.cs" />
+    <Compile Include="ActionCreateEnvironment.cs" />
+    <Compile Include="ActionCreateObject.cs" />
+    <Compile Include="ActionCreatePlotPoint.cs" />
+    <Compile Include="ActionEditObject.cs" />
+    <Compile Include="ActionTextOutput.cs" />
+    <Compile Include="ActionSubgoal.cs" />
+    <Compile Include="AuthorGoal.cs" />
+    <Compile Include="WindowActionEditEntity.xaml.cs">
+      <DependentUpon>WindowActionEditEntity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowActionSubgoalEditor.xaml.cs">
+      <DependentUpon>WindowActionSubgoalEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowAuthorGoalEditor.xaml.cs">
+      <DependentUpon>WindowAuthorGoalEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Character.cs" />
+    <Compile Include="DependencyHolder.cs" />
+    <Compile Include="WindowCharacterEditor.xaml.cs">
+      <DependentUpon>WindowCharacterEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PreconditionStatementCharacter.cs" />
+    <Compile Include="WindowChooseActionDialog.xaml.cs">
+      <DependentUpon>WindowChooseActionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AblCodeGenerator.cs" />
+    <Compile Include="Constraint.cs" />
+    <Compile Include="PreconditionStatementEntity.cs" />
+    <Compile Include="Environment.cs" />
+    <Compile Include="WindowEnvironmentEditor.xaml.cs">
+      <DependentUpon>WindowEnvironmentEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PreconditionStatementEnvironment.cs" />
+    <Compile Include="Interaction.cs" />
+    <Compile Include="WindowInteraction.xaml.cs">
+      <DependentUpon>WindowInteraction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Parameter.cs" />
+    <Compile Include="PlotFragment.cs" />
+    <Compile Include="WindowInteractionListEditor.xaml.cs">
+      <DependentUpon>WindowInteractionListEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowPlotFragmentEditor.xaml.cs">
+      <DependentUpon>WindowPlotFragmentEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlotPoint.cs" />
+    <Compile Include="WindowPlotPointEditor.xaml.cs">
+      <DependentUpon>WindowPlotPointEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PreconditionStatementPlotPoint.cs" />
+    <Compile Include="PlotPointType.cs" />
+    <Compile Include="WindowPlotPointTypeEditor.xaml.cs">
+      <DependentUpon>WindowPlotPointTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowPreconditionEditor.xaml.cs">
+      <DependentUpon>WindowPreconditionEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PreconditionStatement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Relationship.cs" />
+    <Compile Include="RelationshipConstraint.cs" />
+    <Compile Include="WindowSharedRelationshipsEditor.xaml.cs">
+      <DependentUpon>WindowSharedRelationshipsEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowSharedTraitsEditor.xaml.cs">
+      <DependentUpon>WindowSharedTraitsEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Action.cs" />
+    <Compile Include="StoryData.cs" />
+    <Compile Include="StoryEntity.cs" />
+    <Compile Include="WindowStoryDataAnalyzer.xaml.cs">
+      <DependentUpon>WindowStoryDataAnalyzer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowStoryOutputText.xaml.cs">
+      <DependentUpon>WindowStoryOutputText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StoryWorldDataProvider.cs" />
+    <Compile Include="WindowActionTextOutput.xaml.cs">
+      <DependentUpon>WindowActionTextOutput.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowTextInputDialog.xaml.cs">
+      <DependentUpon>WindowTextInputDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Trait.cs" />
+    <Compile Include="TraitConstraint.cs" />
+    <Compile Include="Utilities.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\AuthorGoals2.gif" />
+    <Resource Include="icons\Characters.gif" />
+    <Resource Include="icons\Environments2.gif" />
+    <Resource Include="icons\PlotPoints.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\interactive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="favicon.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
