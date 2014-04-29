@@ -1,6 +1,9 @@
-# Wide Ruled 2 Story Authoring System 
+## Wide Ruled 2 Story Authoring System 
 
-## General Directory Structure
+### Project Information
+* Go to [my project page here](http://skorupski.org/wiki/wide_ruled/wide_ruled_v2) for more general project information and publications, screenshots, etc.
+
+### General Directory Structure
 
 * **`.\src_java\`** : This directory contains all the java source for the project, along with a sample generated ABL agent to test compile the java support code
 * **`.\src_dotnet\WideRuled2\`** : This directory contains all of the Wide Ruled 2 interface and code generation source, along with build directories (described below) that contain all files required to generate ABL code, compile it, and launch the Java-based WideRuled2 backend. 
@@ -8,7 +11,7 @@
 
 
 
-##  .NET Build Directory Structures
+###  .NET Build Directory Structures
 
 Build Directories are located in: .\src_dotnet\WideRuled2\bin\Debug\ and .\src_dotnet\WideRuled2\bin\Release\ . Here are the subdirectories:
 
@@ -23,7 +26,7 @@ Build Directories are located in: .\src_dotnet\WideRuled2\bin\Debug\ and .\src_d
 * **`.\abl\abl.jar`** and **`.\abl\hoj.jar`** : ABL compiler JAR distribution and accompanying Higher-Order Java JAR library files
 
 
-## Important Notes
+### Important Notes
 * This project was built and compiled using **Microsoft Visual Studio 2008** - newer VS versions have not been tested (and likely require modifications and a newer version of the Xceed Data Grid and newer license key). 
 * The Data Grids in Wide Ruled 2 use the Xceed WPF Datagrid control - Binary Installer for the Version used in WR2 is contained
 ** The Visual Authoring/Configuration of the Datagrids requires installation of the Xceed software, which is included inside the src_dotnet directory
