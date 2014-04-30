@@ -13,7 +13,7 @@
 
 ###  .NET Build Directory Structures
 
-Build Directories are located in: .\src_dotnet\WideRuled2\bin\Debug\ and .\src_dotnet\WideRuled2\bin\Release\ . Here are the subdirectories:
+Build Directories are located in **`.\src_dotnet\WideRuled2\bin\Debug\`** and **`.\src_dotnet\WideRuled2\bin\Release\`**. Here are the subdirectories:
 
 * **`.\Sample Story\`** : Story that is packaged with release of WR2
 * **`.\abl\`** : Directory that contains all ABL compilation and code generation related files
