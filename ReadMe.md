@@ -1,5 +1,7 @@
 ## Wide Ruled 2 Story Authoring System 
 
+[![Join the chat at https://gitter.im/jskorupski/WideRuled2](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jskorupski/WideRuled2?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ### Project Information
 * Go to [my project page here](http://skorupski.org/wiki/wide_ruled/wide_ruled_v2) for more general project information and publications, screenshots, etc.
 
